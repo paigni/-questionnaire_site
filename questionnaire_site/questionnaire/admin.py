@@ -5,12 +5,13 @@ from .models import Choice, Question
 
 class ChoiceInline(admin.StackedInline):
     model = Choice
-    extra = 3
+    extra = 0
 
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['question_text']}),
+        (None, {'fields': ['question_title']}),
+        (None, {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date']}),
     ]
     inlines = [ChoiceInline]
