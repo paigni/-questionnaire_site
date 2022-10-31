@@ -16,23 +16,17 @@ class IndexView(generic.ListView):
 
 
 def vote(request, question_id):
-    if request.session.get('has_commented', False):
-        return HttpResponse("Мы Вас обязательно спросим о чём то интересном позже")
-    else:
-        question = get_object_or_404(Question, pk=question_id)
-        try:
-            selected_choice = question.choice_set.get(pk=request.POST['choice'])
-        except (KeyError, Choice.DoesNotExist):
-            return render(request, 'questionnaire/detail.html',
-                          {
-                              'question': question,
-                          })
+    people = Person.objects.all()
+    user = request.session.session_key
+    Person.user_id = user
+    question = get_object_or_404(Question, pk=question_id)
+    if Person.user_id in people:
+        if question in Person:
+            return HttpResponse('index.html')
         else:
-            request.session['has_commented'] = True
             selected_choice.votes += 1
             selected_choice.save()
             return HttpResponse('Спасибо ваш выбор учтён,вы можете просмотерть статитстику по ссылке')
-
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
