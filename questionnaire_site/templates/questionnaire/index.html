@@ -1,9 +1,16 @@
-﻿{% if latest_question_list %}
-<ul>
-    {% for question in latest_question_list %}
-    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No polls are available.</p>
-{% endif %}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Question.title</title>
+</head>
+<body>
+    <h2>Question.text</h2>
+    <form method="post" action="postuser/">
+        {% csrf_token %}
+        <p>Name:<br> <input name="name" /></p>
+        <p>Age:<br> <input name="age" type="number" /></p>
+        <input type="submit" value="Send" />
+    </form>
+</body>
+</html>
