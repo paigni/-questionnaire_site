@@ -2,15 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Question.title</title>
+    <title>{{QuestionForm.title}}</title>
 </head>
 <body>
-    <h2>Question.text</h2>
+    <h2>QuestionForm.text</h2>
     <form method="post" action="postuser/">
         {% csrf_token %}
-        <p>Name:<br> <input name="name" /></p>
-        <p>Age:<br> <input name="age" type="number" /></p>
-        <input type="submit" value="Send" />
+        <for choice in QuestionForm.choice>
+            <p><select id=choice.id>
+            <option value="choice"> choice</option>
+            </select></p>
     </form>
 </body>
 </html>
