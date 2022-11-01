@@ -1,12 +1,16 @@
 from django.test import TestCase
-from django.utils import timezone
-import datetime
-from .models import Question
+from .service import is_new_user, is_user_answer
 
 
-class QuestionModelTests(TestCase):
+class ServiceTest(TestCase):
 
-    def test_was_published_recently_with_future_question(self):
-        time = timezone.now() + datetime.timedelta(days=30)
-        future_question = Question(pub_date=time)
-        self.assertIs(future_question.was_published_recently(), False)
+    def test_is_new_user(self):
+        user = 1311
+        future_user = is_new_user(user)
+        self.assertIs(future_user, True)
+
+    def test_is_user_answer(self):
+        user = 1311
+        question = 1
+        future_answer = is_user_answer(user,question)
+        self.assertIs(future_answer, False)
