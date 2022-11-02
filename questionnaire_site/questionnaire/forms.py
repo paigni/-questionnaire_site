@@ -1,9 +1,10 @@
-from django import forms
-from .models import Question,Choice
+from django.forms import ModelForm
+from questionnaire.models import Question,Choice
 
 
-class QuestionForm(forms.Form):
-    title = Question.title
-    question = Question.text
-    pub_date = Question.pub_date
-    choice = Choice.text
+class ChoiceForm(ModelForm):
+
+    class Meta:
+        model = Choice
+
+
