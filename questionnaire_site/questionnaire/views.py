@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from django.views import generic
 from questionnaire.models import Question, Choice, Person
-from .service import is_user_answer,is_new_user
+from questionnaire.service import is_user_answer
 
 
 class IndexView(generic.ListView):
@@ -13,21 +13,23 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_question'
 
     def get_queryset(self):
-        return Question.objects.latest('pub_date')
+        return Choice.objects.latest('pub_date')
 
 
 def vote(request, question_id):
+
     user = request.session.session_key
     question = get_object_or_404(Question, pk=question_id)
     if is_user_answer(user,question):
         return HttpResponse('Мы вас обязательно спросим о чём то интересном позже')
     else:
-        if is_new_user(user):
-            Person.user_id = user
-            Person.question = question
-            selected_choice.votes += 1
-            selected_choice.save()
-        return HttpResponse('Спасибо ваш выбор учтён,вы можете просмотерть статитстику по ссылке')
+        people = Person()
+        people.user_id = user
+        people.question = question
+        people.save()
+        selected_choice.votes += 1
+        selected_choice.save()
+    return HttpResponse('Спасибо ваш выбор учтён,вы можете просмотерть статитстику по ссылке')
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
