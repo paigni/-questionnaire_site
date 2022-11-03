@@ -1,17 +1,12 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>{{QuestionForm.title}}</title>
-</head>
-<body>
-    <h2>QuestionForm.text</h2>
-    <form method="post" action="postuser/">
-        {% csrf_token %}
-        <for choice in QuestionForm.choice>
-            <p><select id=choice.id>
-            <option value="choice"> choice</option>
-            </select></p>
-    </form>
-</body>
-</html>
+﻿
+{% block content %}
+                <h3>{{ question.title }}</h3>
+                <p>{{ question.text }}</p>
+                <p>{{ question.pub_date }}</p>
+                <select>
+                    {% for el in choice %}
+                        count = 0
+                        <option value=count+1>{{el}}</option>
+                    {% endfor %}
+                </select>
+{% endblock %}
