@@ -8,16 +8,14 @@ from questionnaire.models import Question, Choice, Person
 from questionnaire.service import is_user_answer
 
 
-class IndexView(generic.ListView):
+def show_question_and_choice(request):
     template_name = 'questionnaire/index.html'
-    context_object_name = 'latest_question'
-
-    def get_queryset(self):
-        return Choice.objects.latest('pub_date')
-
+    question = Question.objects.latest('pub_date')
+    latest_question_id = question.id
+    choice = Choice.objects.filter(question_id = latest_question_id )
+    return render(request, template_name, {'question':question, 'choice':choice})
 
 def vote(request, question_id):
-
     user = request.session.session_key
     question = get_object_or_404(Question, pk=question_id)
     if is_user_answer(user,question):
