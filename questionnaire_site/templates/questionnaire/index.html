@@ -1,12 +1,12 @@
 ﻿
-{% block content %}
-                <h3>{{ question.title }}</h3>
-                <p>{{ question.text }}</p>
-                <p>{{ question.pub_date }}</p>
-                <select>
-                    {% for el in choice %}
-                        count = 0
-                        <option value=count+1>{{el}}</option>
-                    {% endfor %}
-                </select>
-{% endblock %}
+
+<h3>{{ question.title }}</h3>
+<p>{{ question.text }}</p>
+<p>{{ question.pub_date }}</p>
+<form method="post">
+    {% csrf_token %}
+    {% for choice in choices %}
+        <p><input type="checkbox"  value={{choice.id}}> {{choice.text}}</p>
+    {% endfor %}
+    <p><input type="submit" value="Отправить"></p>
+</form>
