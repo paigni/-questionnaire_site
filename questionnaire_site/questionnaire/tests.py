@@ -1,5 +1,3 @@
-import datetime
-
 from django.test import TestCase
 from questionnaire.service import is_user_answer
 from questionnaire.models import Person,Question
@@ -11,7 +9,6 @@ class ServiceTest(TestCase):
         ques = Question()
         ques.text = '131'
         ques.title = '3131'
-        ques.pub_date = datetime.time()
         ques.save()
 
         people = Person()
