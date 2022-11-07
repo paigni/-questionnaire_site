@@ -1,8 +1,8 @@
 from django.urls import path
+from questionnaire import views
 
-from . import views
-app_name = 'questionnaire'
 urlpatterns = [
     path('', views.show_question_and_choice, name='index'),
-    path('<int:question_id>/vote/', views.vote, name='vote'),
+    path('vote/', views.vote, name='vote'),
+    path('results/', views.results, name='results'),
 ]
