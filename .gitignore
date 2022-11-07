@@ -155,3 +155,7 @@ cython_debug/
 *.lock
 questionnaire_site/.vs/questionnaire_site/v17/.suo
 *.sqlite
+*.xml
+*.iml
+questionnaire_site/python
+*.json
