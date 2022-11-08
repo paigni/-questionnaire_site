@@ -1,5 +1,6 @@
 ﻿<h1>{{ question.text }}</h1>
 <h2>{{ question.title }}</h2>
+<h2>{{total_votes}}</h2>
 
 <ul>
     {% for choice in question.choice_set.all %}
