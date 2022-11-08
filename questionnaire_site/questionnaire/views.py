@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from questionnaire.models import Question, Choice, Person
 from questionnaire.service import is_user_answer
+from django.db.models import Count
 
 
 def show_question_and_choice(request):
@@ -24,7 +25,8 @@ def vote(request):
     if is_user_answer(user, latest_question_id) and request.method == 'GET':
         return HttpResponse('Мы вас обязательно спросим о чём то интересном позже')
     else:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        choice_id = request.POST['choice']
+        selected_choice = question.choice_set.get(pk=choice_id)
         people = Person()
         people.user_id = user
         people.question = question
@@ -37,4 +39,7 @@ def vote(request):
 def results(request):
     template_name = 'questionnaire/results.html'
     question = Question.objects.latest('pub_date')
-    return render(request, template_name, {'question': question})
+    latest_question_id = question.id
+    votes = Choice.objects.values('vote').annotate(Count('vote')).filter(question_id=latest_question_id)
+    total_votes = votes[1].vote__count
+    return render(request, template_name, {'question': question, 'total_votes':total_votes})
